@@ -39,6 +39,7 @@ def home():
     # Redirect to /predict or just render the predict page
     return render_template('predict.html')
 
+
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     if request.method == 'POST':
@@ -48,6 +49,11 @@ def predict():
 
         message_vec = vectorizer.transform([message])
         prediction = model.predict(message_vec)[0]
+
+        # Map 'ham' to 'not spam', leave other labels as is
+        if prediction == 'ham':
+            prediction = 'not spam'
+
         return render_template('predict.html', result=prediction)
 
     # For GET request, just show the form
