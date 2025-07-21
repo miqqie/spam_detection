@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #7b1fa2;
-            --secondary-color: #4a148c;
-            --accent-color: #c2185b;
+            --primary-color: #9c1c3d;
+            --secondary-color: #7a0c2e;
+            --accent-color: #e91e63;
             --background-color: #f5f5f5;
             --text-color: #333;
             --border-radius: 12px;
             --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            --gradient-bg: linear-gradient(135deg, #7b1fa2, #c2185b);
+            --gradient-bg: linear-gradient(135deg, #9c1c3d, #e91e63);
         }
         
         body {
@@ -59,6 +59,24 @@
             color: var(--primary-color);
             animation: pulse 2s infinite;
             display: inline-block;
+            position: relative;
+        }
+        
+        .exclamation-mark {
+            position: absolute;
+            top: -5px;
+            right: -15px;
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
         @keyframes pulse {
@@ -114,7 +132,7 @@
         textarea:focus {
             outline: none;
             border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(194, 24, 91, 0.2);
+            box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.2);
             background-color: #fff;
         }
         
@@ -133,12 +151,12 @@
             margin: 0 auto;
             font-weight: 600;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 10px rgba(98, 0, 234, 0.3);
+            box-shadow: 0 4px 10px rgba(156, 28, 61, 0.3);
         }
         
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(123, 31, 162, 0.4);
+            box-shadow: 0 6px 15px rgba(156, 28, 61, 0.4);
         }
         
         button i {
@@ -201,36 +219,6 @@
             bottom: -30px;
             left: -30px;
         }
-        
-        .metrics-button {
-            background-color: white;
-            color: var(--primary-color);
-            border: 2px solid var(--accent-color);
-            padding: 10px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            margin-top: 30px;
-            transition: all 0.3s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        
-        .metrics-button:hover {
-            background-color: var(--accent-color);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-        
-        .metrics-button i {
-            margin-right: 8px;
-        }
-        
-        .button-container {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -241,6 +229,7 @@
         <div class="header">
             <div class="header-icon">
                 <i class="fas fa-envelope"></i>
+                <span class="exclamation-mark">!</span>
             </div>
             <h1>Spam Detection</h1>
             <p class="subtitle">Analyze your messages to detect unwanted spam content</p>
@@ -260,7 +249,6 @@
             <strong>Prediction:</strong> {{ result | capitalize }}
         </div>
         {% endif %}
-               
     </div>
 </body>
 </html>
