@@ -4,22 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Model Metrics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #166088;
-            --accent-color: #4fc3f7;
-            --background-color: #f8f9fa;
+            --primary-color: #6200ea;
+            --secondary-color: #3700b3;
+            --accent-color: #03dac6;
+            --background-color: #f5f5f5;
             --text-color: #333;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            --gradient-bg: linear-gradient(135deg, #6200ea, #bb86fc);
         }
         
         body {
             font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--background-color);
+            background: #f5f5f5 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmMGYwZjAiPjwvcmVjdD4KPC9zdmc+');
             color: var(--text-color);
             line-height: 1.6;
         }
@@ -31,6 +33,18 @@
             background-color: white;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: var(--gradient-bg);
         }
         
         h1, h2 {
@@ -41,31 +55,104 @@
         h1 {
             text-align: center;
             font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .header-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            animation: pulse 2s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1.1rem;
             margin-bottom: 30px;
         }
         
         .metrics-card {
             background-color: white;
             border-radius: var(--border-radius);
-            padding: 20px;
+            padding: 25px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eaeaea;
+            position: relative;
+        }
+        
+        .accuracy-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
         }
         
         .accuracy {
-            font-size: 18px;
-            background-color: #e3f2fd;
-            padding: 15px;
-            border-radius: var(--border-radius);
-            text-align: center;
-            margin-bottom: 30px;
+            background: linear-gradient(135deg, #f5f7fa, #e4e7eb);
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid white;
+        }
+        
+        .accuracy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: conic-gradient(var(--accent-color) 0%, var(--accent-color) calc(var(--accuracy-percent) * 1%), transparent calc(var(--accuracy-percent) * 1%), transparent 100%);
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        
+        .accuracy-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 5px;
+            z-index: 1;
         }
         
         .accuracy-value {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: bold;
-            color: var(--secondary-color);
-            margin-left: 10px;
+            color: var(--primary-color);
+            z-index: 1;
+        }
+        
+        .matrix-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .matrix-title i {
+            font-size: 24px;
+            margin-right: 10px;
+            color: var(--accent-color);
         }
         
         table {
@@ -75,17 +162,17 @@
             margin-top: 20px;
             border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         
         th, td {
-            padding: 12px 15px;
+            padding: 15px;
             text-align: center;
-            border: 1px solid #e0e0e0;
+            border: none;
         }
         
         th {
-            background-color: var(--primary-color);
+            background: var(--gradient-bg);
             color: white;
             font-weight: 500;
             text-transform: uppercase;
@@ -93,46 +180,82 @@
             letter-spacing: 0.5px;
         }
         
-        tr:nth-child(even) {
-            background-color: #f5f5f5;
+        td {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        tr:nth-child(odd) td {
+            background-color: #f9f9f9;
+        }
+        
+        tr:nth-child(even) td {
+            background-color: #ffffff;
         }
         
         .matrix-container {
             overflow-x: auto;
+            padding: 10px 0;
         }
         
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
+        .accent-circle {
+            position: absolute;
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.1;
         }
         
-        .header h1 {
-            margin: 0;
+        .accent-circle-1 {
+            width: 200px;
+            height: 200px;
+            background-color: var(--accent-color);
+            top: -50px;
+            right: -50px;
+        }
+        
+        .accent-circle-2 {
+            width: 150px;
+            height: 150px;
+            background-color: var(--primary-color);
+            bottom: -30px;
+            left: -30px;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="accent-circle accent-circle-1"></div>
+        <div class="accent-circle accent-circle-2"></div>
+        
         <div class="header">
-            <h1>Model Performance Metrics</h1>
+            <div class="header-icon">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <h1>Model Performance</h1>
+            <p class="subtitle">Detailed metrics for spam detection model evaluation</p>
         </div>
         
         <div class="metrics-card">
-            <div class="accuracy">
-                <span>Model Accuracy:</span>
-                <span class="accuracy-value">{{ (accuracy * 100) | round(2) }}%</span>
+            <div class="accuracy-container">
+                {% set accuracy_percent = (accuracy * 100) | round(2) %}
+                <div class="accuracy" style="--accuracy-percent: {{ accuracy_percent }}">
+                    <span class="accuracy-label">Accuracy</span>
+                    <span class="accuracy-value">{{ accuracy_percent }}%</span>
+                </div>
             </div>
             
-            <h2>Confusion Matrix</h2>
+            <div class="matrix-title">
+                <i class="fas fa-table"></i>
+                <h2>Confusion Matrix</h2>
+            </div>
+            
             <div class="matrix-container">
                 <table>
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>Predicted Ham</th>
-                            <th>Predicted Spam</th>
+                            <th><i class="fas fa-arrows-alt"></i></th>
+                            <th><i class="fas fa-envelope"></i> Predicted Ham</th>
+                            <th><i class="fas fa-ban"></i> Predicted Spam</th>
                         </tr>
                     </thead>
                     <tbody>
