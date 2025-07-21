@@ -59,8 +59,3 @@ def predict():
     # For GET request, just show the form
     return render_template('predict.html')
 
-@app.route('/metrics')
-def metrics():
-    return render_template('metrics.html', 
-                           confusion_matrix=cm.tolist(), 
-                           accuracy=acc)
