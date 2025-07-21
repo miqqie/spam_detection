@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #6200ea;
-            --secondary-color: #3700b3;
-            --accent-color: #03dac6;
+            --primary-color: #d32f2f;
+            --secondary-color: #b71c1c;
+            --accent-color: #ff6e40;
             --background-color: #f5f5f5;
             --text-color: #333;
             --border-radius: 12px;
             --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            --gradient-bg: linear-gradient(135deg, #6200ea, #bb86fc);
+            --gradient-bg: linear-gradient(135deg, #d32f2f, #ff5252);
         }
         
         body {
@@ -201,6 +201,36 @@
             bottom: -30px;
             left: -30px;
         }
+        
+        .metrics-button {
+            background-color: white;
+            color: var(--primary-color);
+            border: 2px solid var(--accent-color);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .metrics-button:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .metrics-button i {
+            margin-right: 8px;
+        }
+        
+        .button-container {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -230,6 +260,12 @@
             <strong>Prediction:</strong> {{ result | capitalize }}
         </div>
         {% endif %}
+        
+        <div class="button-container">
+            <a href="/metrics" class="metrics-button">
+                <i class="fas fa-chart-bar"></i> View Model Metrics
+            </a>
+        </div>
     </div>
 </body>
 </html>
