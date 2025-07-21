@@ -35,19 +35,23 @@ print("Accuracy without TFIDF is", acc)
 app = Flask(__name__)
 
 @app.route('/')
-def index():
-    return 'Spam Detection API is running.'
+def home():
+    # Redirect to /predict or just render the predict page
+    return render_template('predict.html')
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['GET', 'POST'])
 def predict():
-    data = request.json
-    message = data.get('message', '')
-    if not message:
-        return jsonify({'error': 'No message provided'}), 400
-    
-    message_vec = vectorizer.transform([message])
-    prediction = model.predict(message_vec)[0]
-    return jsonify({'prediction': prediction})
+    if request.method == 'POST':
+        message = request.form.get('message', '')
+        if not message:
+            return render_template('predict.html', result="No message provided")
+
+        message_vec = vectorizer.transform([message])
+        prediction = model.predict(message_vec)[0]
+        return render_template('predict.html', result=prediction)
+
+    # For GET request, just show the form
+    return render_template('predict.html')
 
 @app.route('/metrics')
 def metrics():
