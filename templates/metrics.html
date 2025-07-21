@@ -2,37 +2,152 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Model Metrics</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        table { border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #999; padding: 8px 12px; text-align: center; }
-        th { background-color: #eee; }
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        h1, h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+        
+        .metrics-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .accuracy {
+            font-size: 18px;
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .accuracy-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-left: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f5f5f5;
+        }
+        
+        .matrix-container {
+            overflow-x: auto;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
-    <h1>Model Metrics</h1>
-    <p><strong>Accuracy:</strong> {{ accuracy | round(4) }}</p>
-
-    <h2>Confusion Matrix</h2>
-    <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th>Predicted Ham</th>
-                <th>Predicted Spam</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i, row in enumerate(confusion_matrix) %}
-                <tr>
-                    <th>{{ ['Actual Ham', 'Actual Spam'][i] }}</th>
-                    {% for val in row %}
-                        <td>{{ val }}</td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="container">
+        <div class="header">
+            <h1>Model Performance Metrics</h1>
+        </div>
+        
+        <div class="metrics-card">
+            <div class="accuracy">
+                <span>Model Accuracy:</span>
+                <span class="accuracy-value">{{ (accuracy * 100) | round(2) }}%</span>
+            </div>
+            
+            <h2>Confusion Matrix</h2>
+            <div class="matrix-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Predicted Ham</th>
+                            <th>Predicted Spam</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i, row in enumerate(confusion_matrix) %}
+                            <tr>
+                                <th>{{ ['Actual Ham', 'Actual Spam'][i] }}</th>
+                                {% for val in row %}
+                                    <td>{{ val }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
