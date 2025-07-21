@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Model Metrics</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        table { border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #999; padding: 8px 12px; text-align: center; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+    <h1>Model Metrics</h1>
+    <p><strong>Accuracy:</strong> {{ accuracy | round(4) }}</p>
+
+    <h2>Confusion Matrix</h2>
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Predicted Ham</th>
+                <th>Predicted Spam</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i, row in enumerate(confusion_matrix) %}
+                <tr>
+                    <th>{{ ['Actual Ham', 'Actual Spam'][i] }}</th>
+                    {% for val in row %}
+                        <td>{{ val }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

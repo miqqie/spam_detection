@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix
+from flask import render_template
 
 # Load and preprocess data
 df = pd.read_csv("spam_text.csv")
@@ -50,7 +51,6 @@ def predict():
 
 @app.route('/metrics')
 def metrics():
-    return jsonify({
-        'confusion_matrix': cm.tolist(),
-        'accuracy': acc
-    })
+    return render_template('metrics.html', 
+                           confusion_matrix=cm.tolist(), 
+                           accuracy=acc)
