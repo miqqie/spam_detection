@@ -2,7 +2,7 @@ import pandas as pd
 df = pd.read_csv("spam_text.csv")
 
 X=df['Sentence']
-Y=df['Sentiment’]
+Y=df['Sentiment']
 
 from sklearn.feature_extraction.text import CountVectorizer
 X_CV = CountVectorizer().fit_transform(X)
