@@ -10,12 +10,27 @@ from sklearn.metrics import confusion_matrix
 df = pd.read_csv("spam_text.csv")
 X = df['Message']
 Y = df['Category']
-X_CV = CountVectorizer().fit_transform(X)
+
+# Vectorize
+vectorizer = CountVectorizer()
+X_CV = vectorizer.fit_transform(X)
+
+# Train/test split
 X_train, X_test, Y_train, Y_test = train_test_split(X_CV, Y)
+
+# Train model
 model = LogisticRegression()
 model.fit(X_train, Y_train)
 
-# Create Flask app
+# Evaluate model
+pred = model.predict(X_test)
+cm = confusion_matrix(Y_test, pred)
+acc = np.trace(cm) / np.sum(cm)
+
+print("Confusion Matrix:\n", cm)
+print("Accuracy without TFIDF is", acc)
+
+# Flask app
 app = Flask(__name__)
 
 @app.route('/')
@@ -29,8 +44,13 @@ def predict():
     if not message:
         return jsonify({'error': 'No message provided'}), 400
     
-    vectorizer = CountVectorizer().fit(X)
     message_vec = vectorizer.transform([message])
     prediction = model.predict(message_vec)[0]
     return jsonify({'prediction': prediction})
 
+@app.route('/metrics')
+def metrics():
+    return jsonify({
+        'confusion_matrix': cm.tolist(),
+        'accuracy': acc
+    })
