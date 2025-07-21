@@ -1,5 +1,5 @@
 import pandas as pd
-df = pd.read_csv("News Category (Text).csv")
+df = pd.read_csv("spam_text.csv")
 
 X=df['Sentence']
 Y=df['Sentiment’]
